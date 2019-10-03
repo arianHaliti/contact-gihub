@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
+import GihubContext from '../../context/github/githubContext';
 
-const Search = ({ checkClear, alertSearch, searchUsers, clearUsers }) => {
+const Search = ({ alertSearch }) => {
+
+   const githubContext = useContext(GihubContext)
 
    const [text, setText] = useState('');
    const onChange = (e) => {
@@ -13,15 +16,11 @@ const Search = ({ checkClear, alertSearch, searchUsers, clearUsers }) => {
          alertSearch('Search input is empty', 'light');
 
       } else {
-         searchUsers(text);
+         githubContext.searchUsers(text);
       }
    }
 
-   const onClear = () => {
 
-      clearUsers();
-
-   }
 
    return (
       <div>
@@ -29,16 +28,14 @@ const Search = ({ checkClear, alertSearch, searchUsers, clearUsers }) => {
             <input type="text" name="text" placeholder="Search Users..." onChange={onChange} value={text}></input>
             <input type="submit" value="search" className="btn btn-dark btn-block"></input>
          </form>
-         {checkClear && <button className="btn btn-light btn-block" onClick={onClear}>Clear</button>}
+         {githubContext.users.length > 0 && <button className="btn btn-light btn-block" onClick={githubContext.clearUsers}>Clear</button>}
 
       </div>
    )
 
 }
 Search.propTypes = {
-   searchUsers: PropTypes.func.isRequired,
-   clearUsers: PropTypes.func.isRequired,
-   checkClear: PropTypes.bool.isRequired,
+
    alertSearch: PropTypes.func.isRequired,
 }
 
