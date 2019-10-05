@@ -21,6 +21,10 @@ const GithubState = props => {
    const [state, dispatch] = useReducer(GithubReducer, initialState);
 
    const searchUsers = async (text) => {
+      if (text === "") {
+         dispatch({ type: CLEAR_USERS });
+         return;
+      }
       setLoading();
 
       const res = await axios.get(`http://api.github.com/search/users?q=${text}`);

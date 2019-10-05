@@ -9,6 +9,7 @@ const Users = () => {
    if (loading) {
       return <Spinner />
    }
+
    else {
       return (
          <div style={userStyle}>
